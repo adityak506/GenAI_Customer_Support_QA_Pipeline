@@ -1,0 +1,23 @@
+.env + config.json
+
+src\utils\config_loader.py
+load .env + config.json
+
+src\utils\data_loader.py
+load transcripts
+
+src\utils\llm_loader.py
+initialize llm (openai\gemini)
+
+src\components\classification.py
+src\pipeline\pipeline.py
+
+src\components\router.py
+
+src\components\evaluation.py
+src\pipeline\pipeline.py
+
+src\components\reporting.py
+src\pipeline\pipeline.py
+
+src\utils\helpers.py

@@ -1,0 +1,26 @@
+# Virtual environment folder
+adityaenv/
+venv/
+env/
+.venv/
+
+# Environment files containing confidential API keys
+.env
+.env.*
+
+# Python caches
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.ipynb_checkpoints/
+.pytest_cache/
+
+# Office temporary lock files (Excel)
+~$*.xlsx
+~$*.xls
+
+# Log files
+logs/*.log
+*.log
+*.log.*
