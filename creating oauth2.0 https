@@ -1,0 +1,82 @@
+Great question! Let’s break this into **two parts: enabling HTTPS** and **adding authentication** for your FastAPI app.
+
+---
+
+## 🔒 Enabling HTTPS in FastAPI
+
+FastAPI itself doesn’t directly handle HTTPS—it relies on the server you run it on. You have a few options:
+
+### 1. **Use Uvicorn with SSL certificates**
+If you have SSL certificates (`cert.pem` and `key.pem`), you can run your app like this:
+
+```bash
+uvicorn app:app --host 0.0.0.0 --port 8000 \
+    --ssl-keyfile=key.pem \
+    --ssl-certfile=cert.pem
+```
+
+This makes your API accessible via `https://`.
+
+### 2. **Use a reverse proxy (recommended for production)**
+- Deploy FastAPI with **Uvicorn/Gunicorn**.
+- Put **Nginx or Apache** in front as a reverse proxy.
+- Configure HTTPS in Nginx with **Let’s Encrypt** certificates.
+- Nginx handles HTTPS, and forwards traffic to FastAPI running on HTTP internally.
+
+👉 This is the most common and secure approach in production.
+
+---
+
+## 👤 Enabling Authentication
+
+FastAPI provides built-in support for authentication via **OAuth2** and **JWT tokens**.
+
+### Example: Simple JWT Authentication
+
+```python
+from fastapi import Depends, HTTPException, status
+from fastapi.security import OAuth2PasswordBearer
+from jose import JWTError, jwt
+
+# Secret key for signing JWTs
+SECRET_KEY = "your_secret_key"
+ALGORITHM = "HS256"
+
+# OAuth2 scheme
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+
+def verify_token(token: str = Depends(oauth2_scheme)):
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        user = payload.get("sub")
+        if user is None:
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
+                                detail="Invalid authentication credentials")
+        return user
+    except JWTError:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
+                            detail="Invalid token")
+
+@app.get("/secure-endpoint")
+def secure_data(user: str = Depends(verify_token)):
+    return {"message": f"Hello {user}, you accessed a secure endpoint!"}
+```
+
+### Steps:
+1. Create a `/token` endpoint where users log in with username/password.
+2. Generate a JWT token and return it.
+3. Protect endpoints using `Depends(verify_token)`.
+
+---
+
+## ✅ Putting It Together
+- For **development**, you can run Uvicorn with SSL directly.
+- For **production**, use **Nginx + Let’s Encrypt** for HTTPS.
+- For **authentication**, use **OAuth2 with JWT** to secure endpoints.
+
+---
+
+Would you like me to show you a **full working example** where:
+1. Users log in with username/password,
+2. Get a JWT token,
+3. Use that token to access `/evaluate-file` securely?

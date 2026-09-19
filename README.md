@@ -123,8 +123,41 @@ Upon successful completion, check `data/output.xlsx`. The output spreadsheet con
 
 ---
 
+## 🌐 Production API Serving & Cloud Deployment
+
+In addition to batch local execution, this pipeline is production-ready and can be served as an API and deployed to cloud infrastructure.
+
+![End-to-End Cloud Deployment Architecture](End-to-End-Deployment-Architecture.jpg)
+
+### 1. Run API Locally with FastAPI
+Start the server:
+```bash
+uvicorn app:app --host 0.0.0.0 --port 8000
+```
+- Interactive Swagger Documentation: `http://localhost:8000/docs`
+- Health Check: `GET /health`
+- Batch Evaluation: `POST /evaluate-file` (Accepts `.csv` or `.xlsx` files and returns audited Excel reports)
+
+### 2. Containerization with Docker
+```bash
+# Build the Docker image
+docker build -t qa-evaluator-app .
+
+# Run container with environment variables
+docker run -p 8000:8000 --env-file .env qa-evaluator-app
+```
+
+### 3. AWS Cloud Architecture (ECS Fargate + ALB)
+- **Amazon ECR:** Stores private versioned container images.
+- **AWS ECS Fargate:** Serverless container execution with auto-healing and zero EC2 management.
+- **Application Load Balancer (ALB):** Internet-facing load balancer handling traffic routing, target group health checks, and a permanent DNS endpoint.
+- Refer to `deployment-guide.txt` for detailed step-by-step AWS provisioning instructions.
+
+---
+
 ## 📊 Promotional Assets
 
 We have compiled visual resources to share this project on LinkedIn or with stakeholders:
 1. **PowerPoint Presentation:** Located at `Customer_Service_QA_Pipeline.pptx`. Widescreen slide deck breaking down the architecture, routing patterns, and operational value.
 2. **Animated Execution Flow:** Located at `pipeline_execution.gif`. Displays the step-by-step pipeline execution, perfect for a repository showcase.
+3. **Architecture Blueprints:** Architectural diagrams comparing VM, Serverless, and Containerized Cloud-Native deployment patterns (`Containerized CN Deployment.png`, `Serverless Deployment.png`, `VM Deployment.png`, `End-to-End-Deployment-Architecture.jpg`).

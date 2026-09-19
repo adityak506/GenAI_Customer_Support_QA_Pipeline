@@ -1,0 +1,34 @@
+Core Concepts
+Model Serving Need: Running a Python script locally is insufficient for production; applications 
+require a web interface or API for user interaction and integration with other services.
+FastAPI: A modern, fast (high-performance) web framework for building APIs with Python, enabling 
+quick development of robust API endpoints for machine learning models.
+API Routes (GET/POST): Defines specific URLs (e.g., /health, /evaluate_file) that correspond to
+ functions in the application, handling different types of requests like retrieving data (GET) or 
+ submitting data for processing (POST).
+Decorators: Python syntax (e.g., @app.get("/")) used in FastAPI to associate functions with specific
+ HTTP methods and URL paths, effectively turning a Python function into an API endpoint.
+Swagger UI: An automatically generated interactive API documentation provided by FastAPI at the /docs 
+endpoint, allowing developers to visualize and interact with API resources without manual coding.
+Containerization (Docker): The process of packaging an application and all its dependencies
+ (code, runtime, system tools, libraries) into a single, isolated unit called a container, ensuring 
+ consistent execution.
+Docker Image vs. Container: A Docker Image is a lightweight, standalone, executable package that 
+includes everything needed to run a piece of software. A Docker Container is a runnable instance of a 
+Docker image, representing the live, executing application.
+Dockerfile: A text file containing instructions for building a Docker image, specifying the base 
+
+operating system, dependencies, application code, and startup commands.
+Key Takeaways
+FastAPI is crucial for exposing your AI models as web APIs, making them accessible and integrable
+ with other applications.
+Understand the difference between GET and POST requests: GET for retrieving information, POST for 
+sending data to the server (e.g., uploading a file for processing).
+Leverage FastAPI's auto-generated Swagger UI (at /docs) for easy testing and documentation of your
+ API endpoints.
+Docker is essential for packaging your application and its environment into a portable image, solving
+ "it works on my machine" problems.
+A Dockerfile defines how your Docker image is built, including dependencies and startup commands;
+ a .dockerignore file prevents unnecessary files from being included, reducing image size.
+Always ensure your Docker Desktop application is running before attempting to build or run Docker 
+images and containers.

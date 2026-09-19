@@ -24,3 +24,8 @@ __pycache__/
 logs/*.log
 *.log
 *.log.*
+
+# Temporary runtime uploads and generated files
+data/*-*-*-*-*.csv
+data/*-*-*-*-*.xlsx
+data/output_*.xlsx

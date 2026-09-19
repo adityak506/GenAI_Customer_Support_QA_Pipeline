@@ -8,7 +8,7 @@ def load_llm(config: dict):
     if provider is None:
         raise ValueError("LLM_PROVIDER not set in env")
     
-    provider = provider.lower()
+    provider = provider.strip().strip('"\'').lower()
 
     if provider == "openai":
         return ChatOpenAI(

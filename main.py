@@ -35,7 +35,8 @@ def main():
     
     # pipeline execution
     df = run_classification(df,classification_chain)
-    df = apply_routing(df)
+    df = apply_routing(df) 
+    # to get evaluation plan like ['knowledge_accuracy', 'resolution_quality']
     df = apply_evaluations(df,tone_chain,knowledge_chain,resolution_chain)
     df = apply_final_reports(df,final_report_chain)
     

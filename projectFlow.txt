@@ -21,3 +21,48 @@ src\components\reporting.py
 src\pipeline\pipeline.py
 
 src\utils\helpers.py
+
+-------------------------------------------------------------------
+# App Serving Steps:
+STEP 1 - Create src\pipeline\inference.py
+STEP 2 - Create app.py (ROOT LEVEL)
+STEP 3 - Update requirements.txt
+fastapi
+uvicorn
+python-multipart
+Step 4 - Terminal Command: uvicorn app:app --reload
+http://127.0.0.1:8000/docs
+or
+uvicorn app:app --host 0.0.0.0 --port 8000
+http://127.0.0.1:8000/docs
+
+--------------------------------------------------------------------
+Step 5: Create Dockerfile file
+Step 6: Create .dockerignore file
+Step 7: Build docker image
+"docker build -t qa-evaluator-app ."
+This command is building a Docker image for your app and tagging it as qa-evaluator-app.
+docker build → This tells Docker to build an image from a Dockerfile.
+-t qa-evaluator-app → The -t flag assigns a name (tag) to the image. In this case, 
+the image will be called qa-evaluator-app. You can later run it using this name.
+
+. (dot) → This specifies the build context. The dot means “use the current directory,” 
+so Docker will look for a Dockerfile in the folder where you ran the command.
+👉 After running this, Docker will:
+Read the instructions in your Dockerfile.
+Copy files from the current directory (depending on the COPY or ADD commands inside).
+Build the image layer by layer.
+Save the final image locally with the tag qa-evaluator-app.
+
+Step 8: Run -> "docker images" & you should see "qa-evaluator-app"
+
+Step 9: Run Container locally -> "docker run -p 8000:8000 --env-file .env qa-evaluator-app"
+docker run → Starts a new container from the image.
+-p 8000:8000 → Maps port 8000 on your host machine to port 8000 inside the container. 
+This means if your app listens on port 8000 inside Docker, you can access it at http://localhost:8000
+on your machine.
+--env-file .env → Loads environment variables from the .env file in your current directory. 
+This is useful for secrets/configs like API keys, DB URLs, etc.
+qa-evaluator-app → The name of the image you built earlier. Docker will run this image as a container.
+
+http://127.0.0.1:8000/docs
